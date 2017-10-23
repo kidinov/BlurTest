@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.renderscript.RenderScript
 import android.support.v7.app.AppCompatActivity
 import io.fotoapparat.Fotoapparat
+import io.fotoapparat.parameter.ScaleType
+import io.fotoapparat.parameter.selector.AspectRatioSelectors
+import io.fotoapparat.parameter.selector.LensPositionSelectors
+import io.fotoapparat.parameter.selector.SizeSelectors
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -33,11 +37,11 @@ class MainActivity : AppCompatActivity() {
         fotoapparat = Fotoapparat
                 .with(this)
                 .into(cvQrScanner)
+                .previewScaleType(ScaleType.CENTER_CROP)
+                .previewSize(AspectRatioSelectors.aspectRatio(1.7777778f, SizeSelectors.biggestSize()))
+                .lensPosition(LensPositionSelectors.back())
                 .frameProcessor({
-                    if (it.size.width != filter.width || it.size.height != filter.height) {
-                        filter.reset(it.size.width, it.size.height)
-                    }
-                    filter.execute(it.image)
+                    filter.execute(it.image, it.size.width, it.size.height, it.rotation)
                 })
                 .build()
     }

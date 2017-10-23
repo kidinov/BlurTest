@@ -22,7 +22,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         renderscriptTargetApi 18
-        renderscriptSupportModeEnabled true
+        renderscriptSupportModeEnabled false
     }
     buildTypes {
         release {
